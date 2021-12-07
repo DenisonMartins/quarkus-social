@@ -1,8 +1,14 @@
 package br.com.mmtech.rest.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class CreateUserRequest {
 
+    @NotBlank(message = "Nome é obrigatório")
     private String name;
+
+    @NotNull(message = "Idade é obrigatório")
     private Integer age;
 
     public String getName() {

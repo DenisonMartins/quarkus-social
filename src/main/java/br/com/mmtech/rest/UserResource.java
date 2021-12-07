@@ -1,14 +1,15 @@
 package br.com.mmtech.rest;
 
-import br.com.mmtech.domain.model.User;
 import br.com.mmtech.rest.dto.CreateUserRequest;
+import br.com.mmtech.rest.dto.ResponseError;
 import br.com.mmtech.service.UserService;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
+import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-
-import java.util.Optional;
+import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -17,15 +18,28 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Produces(APPLICATION_JSON)
 public class UserResource {
 
+    public static final int UNPROCESSABLE_ENTITY_STATUS = 422;
     private final UserService userService;
+    private final Validator validator;
 
-    public UserResource(UserService userService) {
+    @Inject
+    public UserResource(UserService userService,
+                        Validator validator) {
         this.userService = userService;
+        this.validator = validator;
     }
 
     @POST
     public Response createUser(CreateUserRequest createUserRequest) {
-        return Response.ok(userService.salvar(createUserRequest)).build();
+        Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(createUserRequest);
+
+        if (!violations.isEmpty()) {
+            return ResponseError.createFromValidator(violations).withStatusCode(UNPROCESSABLE_ENTITY_STATUS);
+        }
+
+        return Response.status(Response.Status.CREATED.getStatusCode())
+                .entity(userService.salvar(createUserRequest))
+                .build();
     }
 
     @GET
@@ -37,7 +51,7 @@ public class UserResource {
     @Path("{id}")
     public Response deleteUser(@PathParam("id") Long id) {
         userService.delete(id);
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.noContent().build();
     }
 
     @PUT
