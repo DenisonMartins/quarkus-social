@@ -5,7 +5,6 @@ import br.com.mmtech.domain.repository.UserRepository;
 import br.com.mmtech.rest.dto.CreateUserRequest;
 import br.com.mmtech.rest.dto.UserDto;
 import br.com.mmtech.service.UserService;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -56,6 +55,11 @@ public class UserServiceImpl implements UserService {
             return new UserDto(user.get());
         }
         throw new RuntimeException("Usuário não existe com id " + id);
+    }
+
+    @Override
+    public User findById(Long userId) {
+        return userRepository.findById(userId);
     }
 
     private Optional<User> getById(Long id) {

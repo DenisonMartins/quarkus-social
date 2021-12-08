@@ -1,5 +1,6 @@
 package br.com.mmtech.service;
 
+import br.com.mmtech.domain.model.User;
 import br.com.mmtech.rest.dto.CreateUserRequest;
 import br.com.mmtech.rest.dto.UserDto;
 
@@ -13,4 +14,6 @@ public interface UserService {
     void delete(Long id);
 
     UserDto update(Long id, CreateUserRequest createUserRequest);
+
+    User findById(Long userId);
 }
