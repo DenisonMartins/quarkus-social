@@ -8,6 +8,7 @@ import br.com.mmtech.rest.dto.PostDto;
 import br.com.mmtech.service.PostService;
 import br.com.mmtech.service.UserService;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.panache.common.Sort;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -42,7 +43,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> getAll(Long userId) {
         User user = getUser(userId);
-        PanacheQuery<Post> query = postRepository.find("user", user);
+        PanacheQuery<Post> query = postRepository.find("user", Sort.descending("dataCriacao"), user);
         return query.list().stream().map(PostDto::new).collect(Collectors.toList());
     }
 
