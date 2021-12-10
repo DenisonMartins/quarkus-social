@@ -7,4 +7,6 @@ public interface FollowerService {
     void followUser(Long userId, FollowerRequest followerRequest);
 
     FollowersPerUser getAll(Long userId);
+
+    void unfollower(Long userId, Long followerId);
 }

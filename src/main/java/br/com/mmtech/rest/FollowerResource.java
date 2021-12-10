@@ -54,4 +54,10 @@ public class FollowerResource {
     public Response getPosts(@PathParam("userId") Long userId) {
         return Response.ok(followerService.getAll(userId)).build();
     }
+
+    @DELETE
+    public Response unfollowUser(@PathParam("userId") Long userId, @QueryParam("followerId") Long followerId) {
+        followerService.unfollower(userId, followerId);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
 }

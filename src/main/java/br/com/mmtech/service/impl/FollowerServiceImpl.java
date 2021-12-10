@@ -52,6 +52,12 @@ public class FollowerServiceImpl implements FollowerService {
         return new FollowersPerUser(content);
     }
 
+    @Override
+    public void unfollower(Long userId, Long followerId) {
+        verificaSeUsuarioExiste(userId);
+        followerRepository.deleteByFollowerAndUser(followerId, userId);
+    }
+
     private void verificaSeUsuarioExiste(Long userId) {
         userService.findById(userId);
     }
