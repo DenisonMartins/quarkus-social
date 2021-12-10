@@ -8,5 +8,5 @@ import java.util.List;
 public interface PostService {
     PostDto savePost(Long userId, CreatePost createPost);
 
-    List<PostDto> getAll(Long userId);
+    List<PostDto> getAll(Long userId, Long followerId);
 }

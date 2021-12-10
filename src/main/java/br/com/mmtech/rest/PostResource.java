@@ -43,7 +43,7 @@ public class PostResource {
     }
 
     @GET
-    public Response getPosts(@PathParam("userId") Long userId) {
-        return Response.ok(postService.getAll(userId)).build();
+    public Response getPosts(@PathParam("userId") Long userId, @HeaderParam("followerId") Long followerId) {
+        return Response.ok(postService.getAll(userId, followerId)).build();
     }
 }
