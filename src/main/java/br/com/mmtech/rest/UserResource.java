@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.Set;
 
+import static br.com.mmtech.rest.dto.ResponseError.UNPROCESSABLE_ENTITY_STATUS;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("users")
@@ -18,7 +19,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Produces(APPLICATION_JSON)
 public class UserResource {
 
-    public static final int UNPROCESSABLE_ENTITY_STATUS = 422;
     private final UserService userService;
     private final Validator validator;
 
